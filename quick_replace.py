@@ -19,13 +19,13 @@ import subprocess
 
 
 def print_options(options):
-    print "Build number: %s" % options.build_numer
+    print "Build number: %s" % options.build_number
     print "Pom.xml location: %s" % options.pom_path
 
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--build_numer", help="Build number", default="1")
+    parser.add_argument("-b", "--build_number", help="Build number", default="1")
     parser.add_argument("-p", "--pom_path", help="Command status", default="start")
     options = parser.parse_args()
     print_options(options)
