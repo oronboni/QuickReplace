@@ -19,8 +19,8 @@ import subprocess
 
 
 def print_options(options):
-    print "Build number: %s" % options.command_status
-    print "Pom.xml location: %s" % options.service_name
+    print "Build number: %s" % options.build_numer
+    print "Pom.xml location: %s" % options.pom_path
 
 
 def get_args():
