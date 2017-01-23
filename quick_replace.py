@@ -45,6 +45,7 @@ def main():
 
 	# Replace the target string
     filedata = filedata.replace('<version>0.0.1-SNAPSHOT</version>', '<version>0.0.1.'+build_number+'</version>')
+    filedata = filedata.replace('${mtd.version}', '0.0.1.' + build_number + '')
 
     # Write the file out again
     with open(pom_path, 'w') as file:
