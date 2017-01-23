@@ -16,7 +16,7 @@ Description         :  Read Jenkins job parameters
 #############################
 import argparse
 import subprocess
-
+import os
 
 def print_options(options):
     print "Build number: %s" % options.build_number
@@ -32,25 +32,33 @@ def get_args():
     return vars(options)
 
 
+def replace(build_number, pom_path):
+    # Read in the file
+    filedata = None
+    with open(pom_path, 'r') as file:
+        filedata = file.read()
+
+    # Replace the target string
+    filedata = filedata.replace('<version>0.0.1-SNAPSHOT</version>', '<version>0.0.1.' + build_number + '</version>')
+    filedata = filedata.replace('${mtd.version}', '0.0.1.' + build_number + '')
+
+    # Write the file out again
+    with open(pom_path, 'w') as file:
+        file.write(filedata)
+
+
 def main():
     print '**** Read jobs parameters start'
     options = get_args()
     build_number = options["build_number"]
     pom_path = options["pom_path"]
 
-    # Read in the file
-    filedata = None
-    with open(pom_path, 'r') as file:
-        filedata = file.read()
+    replace(build_number, pom_path)
 
-	# Replace the target string
-    filedata = filedata.replace('<version>0.0.1-SNAPSHOT</version>', '<version>0.0.1.'+build_number+'</version>')
-    filedata = filedata.replace('${mtd.version}', '0.0.1.' + build_number + '')
+    dir_path = os.path.dirname(os.path.realpath(pom_path))
 
-    # Write the file out again
-    with open(pom_path, 'w') as file:
-	    file.write(filedata)
-
+    dirs = [d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))]
+    print dirs
 
 if __name__ == "__main__":
     main()
