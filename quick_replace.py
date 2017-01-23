@@ -32,6 +32,21 @@ def get_args():
     return vars(options)
 
 
+def specialreplace(build_number, pom_path):
+    # Read in the file
+    filedata = None
+    with open(pom_path, 'r') as file:
+        filedata = file.read()
+
+    # Replace the target string
+    filedata = filedata.replace('<version>0.0.1-SNAPSHOT</version>', '<version>0.0.1.' + build_number + '</version>')
+    filedata = filedata.replace('${mtd.version}', '0.0.1.' + build_number + '')
+
+    # Write the file out again
+    with open(pom_path, 'w') as file:
+        file.write(filedata)
+
+
 def replace(build_number, pom_path):
     # Read in the file
     filedata = None
@@ -59,8 +74,9 @@ def main():
 
     dirs = [d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))]
     for dir_name in dirs:
-        if os.path.isfile(dir_path +'/' + dir_name + '/pom.xml'):
-            replace (build_number, dir_path +'/' + dir_name + '/pom.xml')
+        if os.path.isfile(dir_path + '/' + dir_name + '/pom.xml'):
+            print dir_path + '/' + dir_name + '/pom.xml'
+            replace(build_number, dir_path + '/' + dir_name + '/pom.xml')
 
 if __name__ == "__main__":
     main()
