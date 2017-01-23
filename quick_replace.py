@@ -60,7 +60,7 @@ def main():
     dirs = [d for d in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, d))]
     for dir_name in dirs:
         if os.path.isfile(dir_path +'/' + dir_name + '/pom.xml'):
-            print dir_path +'/' + dir_name + '/pom.xml'
+            replace (build_number, dir_path +'/' + dir_name + '/pom.xml')
 
 if __name__ == "__main__":
     main()
